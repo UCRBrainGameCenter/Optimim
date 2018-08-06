@@ -7,9 +7,9 @@ New datasets: Recollect 2016 and 2017
 
 ### To train the HMM:
 
-Run train_hmm('recollect') to train the HMM on recollect
+Run `train_hmm('recollect')` to train the HMM on recollect
 
-Run train_hmm('tapback') to train the HMM on recall
+Run `train_hmm('tapback')` to train the HMM on recall
 
 The follwing list of functions are called:
 1. `setup_newDS()` loads the data for recollect 
@@ -21,6 +21,7 @@ The follwing list of functions are called:
 7. `alpha_beta_pass()` carries out the forward-backward procedure
 8. `forward2()` computes the prediction
 9. `compute_rmse()` computes the rmse and the predictions
+10. `control_fn()` computes the beta distribution to compute emission probabilities.
 	
 ### To test the HMM:
 
@@ -34,9 +35,22 @@ Run `explot3(A,Pi,test_B,test_n_backs_list,Test_Predicted_Values,Test_Actual_Val
 
 `explot2()` generates plots that correspond to the mean and the variance of the error residuals across all subjects
 
-### To tune global item-parameters (rho, c, d) for HMM:
+### To tune global item-parameters (rho, c, d, n) for HMM:
 
-Run `tuning_parameters()`. Does a grid-search. Adjust suitable ranges for each parameter if needed.
+Run `tuning_parameters()`. Does a grid-search. Adjust suitable ranges for each hyper-parameter if needed.
+
+### To train HMM version 2:
+
+NOTE: Here, theta is 3D. The transition function is theta(X-X', X'-nb_prev, binned(prev_acc)).
+
+Run `train_hmm2('recollect')` to train the HMM on recollect
+
+The follwing list of functions are called:
+1. `computeA_B()` returns the emission matrix _B_ and the list of transition matrices _A_ for each subject
+2. `baum_welch_cont2()` finds the transition probabilities _theta_ and the initial probabilities _Pi_ Parameters
+3. `Estep()` provides MLE
+4. `single_seq2()` computes expected sufficient statistics for each training sequence
+5. `populateA()` populates the transition matrix _A_ at each time-step from theta
 	
 ### To write matlab objects into csv files:
 
@@ -52,7 +66,7 @@ Run `write_file()`
 
 ### To analyze clusters:
 
-Run `analysis_subj16()` and `analysis_subj16()` to analyze clusters formed in Recollect-2016 and Recollect-2017 respectively.
+Run `analysis_subj16()` and `analysis_subj17()` to analyze clusters formed in Recollect-2016 and Recollect-2017 respectively.
 
 NOTE: The Tapback and Recall datasets test subjects that go upto a n-back of 9.
 The memory score is 0.25, hence state space is 36, with 3 intermediate states between each level.
