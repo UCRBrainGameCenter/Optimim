@@ -1,4 +1,3 @@
-
 function [] = explot3_newDS(A,Pi,B_list,n_backs_list,Y_hat_list,Ratio)
 %Plotting for every subject:
 nSubs = numel(B_list);
@@ -12,7 +11,7 @@ for k=1:nSubs
     if (isempty(B) == 1)
        continue;
     end
-    [fs] = alpha_beta_pass(A,Pi,B) % gamma= alpha_hat*beta_hat 
+    [fs] = alpha_beta_pass(A{k},Pi,B) % gamma= alpha_hat*beta_hat 
     
     N= size(B,1);
     N=150; %N is constant across all subjects: This can be changed 

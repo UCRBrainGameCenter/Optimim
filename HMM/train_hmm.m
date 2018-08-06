@@ -22,6 +22,7 @@ end
 A = A_rr{idx};
 Pi = Pi_rr{idx};
 save('A.mat','A');
+save('X.mat','X');
 save('Pi.mat','Pi');
 save('log_P.mat','log_P');
 save('loglik.mat','loglik');

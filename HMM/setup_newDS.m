@@ -1,6 +1,6 @@
 function [X,B_list] = setup_newDS()
-[accu1,nbacks1,nTrials1] = set_upnew2016(); %Reading the 2017 dataset (classic staircase training algo)
-[accu2,nbacks2,nTrials2] = set_upnew2017(); %Reading the 2016 dataset(has two sessions per day and multiple training algos)
+[accu1,nbacks1,nTrials1] = set_upnew2017(); %Reading the 2017 dataset (classic staircase training algo)
+[accu2,nbacks2,nTrials2] = set_upnew2016(); %Reading the 2016 dataset(has two sessions per day and multiple training algos)
 taccu= [accu1;accu2];
 tnbacks =[nbacks1;nbacks2];
 tnTrials =[nTrials1;nTrials2];
@@ -41,6 +41,7 @@ R_list = cell(nSubs,1);
 rho=1.7;
 c=0.0;
 d=1;
+n = 3;
 X= linspace(1,12,12);
 %Collecting data across all subjects
 for k = 1:nSubs
@@ -50,7 +51,7 @@ for k = 1:nSubs
     R = acc.*nTrial;
     R = round(R);
     
-    [B] =  compute_emission_prob(nTrial,R,nback,rho,c,d,X); %Computing B for subject k
+    [B] =  compute_emission_prob(nTrial,R,nback,rho,c,d,X,n); %Computing B for subject k
     B_list{k} = B;
     M_list{k} = nTrial;
     R_list{k} = R;

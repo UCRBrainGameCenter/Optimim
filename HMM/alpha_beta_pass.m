@@ -1,4 +1,4 @@
-function [alpha,beta,scale,scale_beta] = alpha_beta_pass(A,Pi,B)
+function [alpha,beta,scale,scale_beta] = alpha_beta_pass(A_list,Pi,B)
 %Compute alpha and the scale
 N= size(B,2);
 T= size(B,1);
@@ -14,7 +14,13 @@ alpha(1,:) = Pi(1,:).*B(1,:);  %alpha at t=1
 scale(1) = 1 ./ sum(alpha(1, :));
 alpha(1,:) = alpha(1, :) * scale(1);
 
+
 for t = 2:T
+    if iscell(A_list) == 1
+        A=A_list{t-1}; 
+    else
+        A = A_list;
+    end
     alpha(t,:) = (alpha(t-1,:) * A) .* B(t, :);
     if sum(alpha(t,:)) == 0
         scale(t) = 0;
@@ -30,6 +36,11 @@ beta(T,:) = beta(T, :) * scale_beta(T);
 
 B= B';
 for t = (T-1):-1:1
+    if iscell(A_list)
+        A = A_list{t}; 
+    else
+        A = A_list;
+    end
     beta(t,:) = A * (B(:,t+1) .* beta(t+1,:)');
     scale_beta(t) = 1 ./ sum(beta(t, :));
     beta(t, :) = beta(t, :) * scale_beta(t);

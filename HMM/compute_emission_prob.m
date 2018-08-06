@@ -1,4 +1,4 @@
-function [B] = compute_emission_prob(M,R,n_backs,rho,c,d,X) 
+function [B] = compute_emission_prob(M,R,n_backs,rho,c,d,X,n) 
 %Control input: z=  n_back
 %Latent variable : x 
 %Sequence of observations: y=r (Number got right)
@@ -12,12 +12,18 @@ for i=1:n_blocks
     n_back = n_backs(i); 
     r = R(i);
     m = M(i);
+    
     %IRT model:
     q_plug = rho*(X- n_back);
     q= c + (d - c)./ ( 1.0 + exp(-q_plug)); 
-     pos_q = q.^r; 
+    res = zeros(n_X,1);
+    for j=1:n_X
+        res(j)=control_fn(r,m,q(j),n);
+    end
+    pos_q = q.^r; 
     neg_q =(1-q).^(m-r);
-    B(i,:) =nchoosek(m,r).*pos_q .*neg_q; %Warning Generated:Result may not be exact. Coefficient is greater than 9.007199e+15 and is only accurate to 15 digits    
+    B(i,:) =res;
+    %nchoosek(m,r).*pos_q .*neg_q; %Warning Generated:Result may not be exact. Coefficient is greater than 9.007199e+15 and is only accurate to 15 digits    
 end 
 
 end

@@ -11,6 +11,10 @@ M_list = cell(nSubs,1);
 R_list = cell(nSubs,1);
 B_list = cell(nSubs,1);
 X= linspace(1,9,36);
+rho=1.6;
+c=0.0;
+n=3;
+d=1;
 %Collecting data across all subjects
 for k = 1:nSubs
     subject_name = subjects(k).name;
@@ -34,10 +38,7 @@ for k = 1:nSubs
              n_backs_list{k} = n_backs;
              M_list{k} = M;
              R_list{k} = R;
-             rho=1.6;
-             c=0.0;
-             d=1;
-             [B] =  compute_emission_prob(M,R,n_backs,rho,c,d,X); 
+             [B] =  compute_emission_prob(M,R,n_backs,rho,c,d,X,n); 
              B_list{k} = B;
         end
     end
